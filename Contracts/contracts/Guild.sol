@@ -6,12 +6,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IOracle.sol";
 import "./Soulbound.sol";
 import "./interfaces/ISoulbound.sol";
+import "./helpers/ByteHasher.sol";
+import "./interfaces/IWorldID.sol";
 
 error Guild__TransferNotAllowed();
 error Guild__HasNotCompleted();
 error Guild__HasAlreadyClaimed();
+error InvalidNullifier();
 
 contract Guild {
+    using ByteHasher for bytes;
     struct GuildDetails {
         string description;
         string uri;
@@ -20,12 +24,27 @@ contract Guild {
         uint256 rewardAmount;
         uint256 totalRewardAmount;
     }
+
     uint256 public guildCounter;
     mapping(uint256 => GuildDetails) public guilds;
     mapping(uint256 => uint256) public guildToRewardsLeft;
     mapping(uint256 => address) public guildIdToNFTAddress;
 
+    /// @dev The WorldID instance that will be used for verifying proofs
+    IWorldID internal immutable worldId;
+
+    /// @dev The WorldID group ID (1)
+    uint256 internal immutable groupId = 1;
+
+    /// @dev Whether a nullifier hash has been used already. Used to prevent double-signaling
+    mapping(uint256 => bool) internal nullifierHashes;
+
     event GuildCreated();
+
+    /// @param _worldId The WorldID instance that will verify the proofs
+    constructor(IWorldID _worldId) {
+        worldId = _worldId;
+    }
 
     function createGuild(
         string memory _name,
@@ -75,5 +94,26 @@ contract Guild {
                 guilds[id].rewardAmount
             );
         }
+    }
+
+    function claim(
+        address receiver,
+        uint256 id,
+        uint256 root,
+        uint256 nullifierHash,
+        uint256[8] calldata proof
+    ) public {
+        if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        worldId.verifyProof(
+            root,
+            id,
+            abi.encodePacked(receiver).hashToField(),
+            nullifierHash,
+            abi.encodePacked(address(this)).hashToField(),
+            proof
+        );
+
+        nullifierHashes[nullifierHash] = true;
+        mint(receiver, id);
     }
 }
