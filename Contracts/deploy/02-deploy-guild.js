@@ -6,8 +6,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     log("---------------------------------")
-    arguments = []
-    const soulbound = await deploy("Soulbound", {
+    arguments = ["URI"]
+    const guild = await deploy("Guild", {
         from: deployer,
         args: arguments,
         log: true,
@@ -18,8 +18,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         process.env.ETHERSCAN_API_KEY
     ) {
         log("verifiying....")
-        await verify(soulbound.address, arguments)
+        await verify(guild.address, arguments)
     }
 }
 
-module.exports.tags = ["all", "soulbound"]
+module.exports.tags = ["all", "guild"]
