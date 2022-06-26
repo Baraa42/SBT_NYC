@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { ethers} from "ethers"
 import {Button} from "react-daisyui"
-import { defaultAbiCoder as abi } from "@ethersproject/abi";
 import { useWalletAccount } from "@/hooks/useWalletAccount";
 import type { VerificationResponse } from "@worldcoin/id";
 import { ConnectWalletBtn } from "../common/ConnectWalletBtn";
@@ -21,26 +20,28 @@ export const ClaimContainer: FC = () => {
 
     const {account, library} = useWalletAccount()
     const [worldIDProof, setWorldIDProof] = useState<VerificationResponse | null>(null);
-    const [txHash, setTxHash] = useState<string>("");
+    const [_, setTxHash] = useState<string>("");
 
       const claimAction = async () => {
-        if (!(worldIDProof && account && library)) {
-          throw "World ID proof is missing.";
-        }
     
         const guildContract = new ethers.Contract(
             GUILD_ADDRESS,
             guildAbi,
-          library.getSigner(),
+          library?.getSigner(),
         );
     
         // eslint-disable-next-line
-        const claimResult = await guildContract.claim(
+        // const claimResult = await guildContract.claim(
+        //   account,
+        //   id,
+        //   test.merkle_root,
+        //   test.nullifier_hash,
+        //   abi.decode(["uint256[8]"], test.proof)[0],
+        //   { gasLimit: 10000000 },
+        // );
+        const claimResult = await guildContract.mint(
           account,
           id,
-          worldIDProof.merkle_root,
-          worldIDProof.nullifier_hash,
-          abi.decode(["uint256[8]"], worldIDProof.proof)[0],
           { gasLimit: 10000000 },
         );
         setTxHash((claimResult as Record<string, string>).hash);

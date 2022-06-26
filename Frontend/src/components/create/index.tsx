@@ -26,7 +26,7 @@ export const CreateContainer: FC = () => {
     }
 
     return (
-        <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg">
+        <main className="h-screen overflow-y-auto max-w-screen-lg mx-auto text-lg">
             <h1 className="text-3xl py-4">Create New Guild</h1>
             <form
                 className="w-full h-full"
@@ -84,7 +84,7 @@ export const CreateContainer: FC = () => {
                     {/* description */}
                     <div className="flex flex-wrap items-center">
                         <p className="font-semibold">
-                        description
+                        Description
                         <span className="cols-span-1 px-3 text-xs text-red-600">
                             {errors.description?.message}
                             </span>
@@ -164,7 +164,7 @@ export const CreateContainer: FC = () => {
                     </div>
                 </div>
                 <Card.Actions className="justify-end">
-                    <Button type="submit" className="text-white bg-primary">Transfer</Button>
+                <Button type="submit" className="text-white bg-WHITE"><span className="text-red-600">S</span><span className="text-amber-500">U</span><span className="text-yellow-300">B</span><span className="text-green-500">M</span><span className="text-blue-500">I</span><span className="text-violet-600">T</span> </Button>
                 </Card.Actions>
             </form>
         </main>
