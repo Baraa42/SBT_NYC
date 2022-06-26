@@ -28,7 +28,7 @@ contract Guild {
     uint256 public guildCounter;
     mapping(uint256 => GuildDetails) public guilds;
     mapping(uint256 => uint256) public guildToRewardsLeft;
-    mapping(uint256 => address) public guildIdToNFTAddress;
+    mapping(uint256 => address) public guildIdToNFTAddress; // Guild => NFT Contract // guildIdToNFTAddress[0] guild.guildIdToNFTAddress
 
     /// @dev The WorldID instance that will be used for verifying proofs
     IWorldID internal immutable worldId;
@@ -114,6 +114,8 @@ contract Guild {
         );
 
         nullifierHashes[nullifierHash] = true;
-        mint(receiver, id);
+        ISoulbound sbt = ISoulbound(guildIdToNFTAddress[id]);
+        string memory uri = guilds[id].uri;
+        sbt.safeMint(receiver, uri);
     }
 }
