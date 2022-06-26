@@ -11,7 +11,7 @@ async function mint() {
     user = accounts[1]
     const firstGuildDetails = {
         description: "This is my First guild",
-        uri: "ipfs://QmPKDSGxdGaKEE2xF9MvQUkGeYqNJH6S8kXfu5fDBtVWW9",
+        uri: "ipfs://QmagEcMVfgUuvLPijgdrufuekeGJyvJhDUTVjCdsQ3dcbE",
         oracleContract: oracleAddress,
         rewardToken: "0x0000000000000000000000000000000000000000",
         rewardAmount: "0",
@@ -22,7 +22,7 @@ async function mint() {
     console.log("First Guild created")
     const secondGuildDetails = {
         description: "This is my second guild",
-        uri: "ipfs://QmPKDSGxdGaKEE2xF9MvQUkGeYqNJH6S8kXfu5fDBtVWW9",
+        uri: "ipfs://QmXbAzrta5AjDdpVr9cgK6pRavMvm95mmZKyHtgDxr2nyX",
         oracleContract: oracleAddress,
         rewardToken: "0x0000000000000000000000000000000000000000",
         rewardAmount: "0",
@@ -37,7 +37,7 @@ async function mint() {
     console.log("Second Guild created")
     const thirdGuildDetails = {
         description: "This is my third guild",
-        uri: "ipfs://QmPKDSGxdGaKEE2xF9MvQUkGeYqNJH6S8kXfu5fDBtVWW9",
+        uri: "ipfs://QmQPaXWk4Ea2h42AzyzkBc3J1y6YgxWgfCXeQg9QqorDsB",
         oracleContract: oracleAddress,
         rewardToken: "0x0000000000000000000000000000000000000000",
         rewardAmount: "0",

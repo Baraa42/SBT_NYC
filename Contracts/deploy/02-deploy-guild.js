@@ -1,4 +1,4 @@
-const { network } = require("hardhat")
+const { network, ethers } = require("hardhat")
 const { developmentChains } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
 
@@ -9,7 +9,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     arguments = ["0xABB70f7F39035586Da57B3c8136035f87AC0d2Aa"]
     const guild = await deploy("Guild", {
         from: deployer,
-        args: arguments,
+        args: [],
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
     })

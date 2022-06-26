@@ -9,7 +9,7 @@ const networkConfig = {
     },
 }
 
-const developmentChains = ["hardhat", "localhost"]
+const developmentChains = ["hardhat", "localhost", "skale-test", "boba"]
 
 module.exports = {
     networkConfig,

@@ -31,7 +31,7 @@ contract Guild {
     mapping(uint256 => address) public guildIdToNFTAddress; // Guild => NFT Contract // guildIdToNFTAddress[0] guild.guildIdToNFTAddress
 
     /// @dev The WorldID instance that will be used for verifying proofs
-    IWorldID internal immutable worldId;
+    // IWorldID internal immutable worldId;
 
     /// @dev The WorldID group ID (1)
     uint256 internal immutable groupId = 1;
@@ -41,9 +41,8 @@ contract Guild {
 
     event GuildCreated();
 
-    /// @param _worldId The WorldID instance that will verify the proofs
-    constructor(IWorldID _worldId) {
-        worldId = _worldId;
+    constructor() {
+        //worldId = address(0);
     }
 
     function createGuild(
@@ -104,14 +103,14 @@ contract Guild {
         uint256[8] calldata proof
     ) public {
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
-        worldId.verifyProof(
-            root,
-            id,
-            abi.encodePacked(receiver).hashToField(),
-            nullifierHash,
-            abi.encodePacked(address(this)).hashToField(),
-            proof
-        );
+        // worldId.verifyProof(
+        //     root,
+        //     id,
+        //     abi.encodePacked(receiver).hashToField(),
+        //     nullifierHash,
+        //     abi.encodePacked(address(this)).hashToField(),
+        //     proof
+        // );
 
         nullifierHashes[nullifierHash] = true;
         ISoulbound sbt = ISoulbound(guildIdToNFTAddress[id]);
