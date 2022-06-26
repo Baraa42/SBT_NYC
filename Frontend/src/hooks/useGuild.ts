@@ -9,6 +9,7 @@ import { useWalletAccount } from "./useWalletAccount";
 import abi from "@/hardhat/deployments/guild.json";
 import { GUILD_ADDRESS } from "@/const";
 import { ConnectWalletBtn } from "@/components/common/ConnectWalletBtn";
+import { useSetConnectWalletModal } from "@/jotai";
 
 export const useGuild = () => {
   const { account, chainId, library } = useWalletAccount();
@@ -19,20 +20,16 @@ export const useGuild = () => {
   const [guilds, setGuilds] = useState<GuildItem[]>();
 
   useEffect(() => {
-    if (contracts) {
-      getGuildList();
-    }
-  }, [contracts]);
+    getGuildList();
+  }, [library]);
 
   const getGuildList = useCallback(async () => {
-    if (!contracts) {
-      toastError("Not valid Network or something wrong");
-      return;
-    }
-
     try {
-      const signer = library?.getSigner();
-      const guild = new ethers.Contract(GUILD_ADDRESS, abi, signer);
+      const guild = new ethers.Contract(
+        GUILD_ADDRESS,
+        abi,
+        library?.getSigner()
+      );
       const num = await guild.guildCounter();
       const temp: GuildItem[] = [];
       for (let i = 0; i < num; i++) {

@@ -18,7 +18,7 @@ export const GuildCard:FC<GuildCardProps> = ({item}) => {
     }
 
     return (
-        <Card className="bg-base-content w-auto h-fit mx-2">
+        <Card className="bg-gray-100 w-auto h-fit mx-2 p-4">
             <Card.Image
             src={item.uri}
             alt="image"
