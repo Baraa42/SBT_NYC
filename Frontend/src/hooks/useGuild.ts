@@ -3,7 +3,7 @@ import { guildTxFn } from "@/utils/contractHelpers";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
-import { useContracts, useReadOnlyContracts } from "./useContract";
+import { useContracts } from "./useContract";
 import { useToast } from "./useToast";
 import { useWalletAccount } from "./useWalletAccount";
 import abi from "@/hardhat/deployments/guild.json";
@@ -54,15 +54,8 @@ export const useGuild = () => {
 
   const getGuild = useCallback(
     async (id: number): Promise<GuildItem | null> => {
-      if (!account) {
-        await ConnectWalletBtn();
-      }
       const signer = library?.getSigner();
-      const guild = new ethers.Contract(
-        "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-        abi,
-        signer
-      );
+      const guild = new ethers.Contract(GUILD_ADDRESS, abi, signer);
       const g = await guild.guilds(id);
       const reward = await guild.guildToRewardsLeft(id);
       const nft = await guild.guildIdToNFTAddress(id);
@@ -80,7 +73,7 @@ export const useGuild = () => {
   const createGuild = async (data: GuildForm) => {
     // validation
     if (!(account && chainId)) {
-      toastError("Wallet Connection Error");
+      await ConnectWalletBtn();
       return;
     }
 
@@ -89,7 +82,6 @@ export const useGuild = () => {
       return;
     }
 
-    const d = {};
     const details = {
       description: data.description,
       uri: data.uri,
@@ -98,7 +90,6 @@ export const useGuild = () => {
       rewardAmount: data.rewardAmount,
       totalRewardAmount: data.totalRewardAmount,
     };
-    console.log(details);
     const tx = await runGuildTxFn((g) =>
       g.createGuild(data.name, data.symbol, details)
     ).catch(async (error) => {

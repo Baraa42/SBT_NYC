@@ -1,5 +1,7 @@
 import { useGuild } from "@/hooks/useGuild";
+import { useWalletAccount } from "@/hooks/useWalletAccount";
 import { GuildForm } from "@/interfaces/guild";
+import { useSetConnectWalletModal } from "@/jotai";
 import { FC } from "react";
 import { Card,Button } from "react-daisyui";
 import { useForm } from "react-hook-form";
@@ -7,13 +9,18 @@ import { useForm } from "react-hook-form";
 export const CreateContainer: FC = () => {
 
     const {createGuild} = useGuild()
+    const {account} = useWalletAccount()
+    const setShow = useSetConnectWalletModal()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<GuildForm>();
 
-    const onClickSubmit = (data:any) => {
+    const onClickSubmit = async (data:any) => {
+        if (!account) {
+            setShow(true)
+          }
         if(!data) return
         createGuild(data)
     }
@@ -37,7 +44,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2 "
                         
                         {...register("name")}
                         />
@@ -53,7 +60,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("uri")}
                         />
@@ -69,7 +76,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("symbol")}
                         />
@@ -86,7 +93,7 @@ export const CreateContainer: FC = () => {
                     <div className="mb-3">
                         <textarea
                          rows={5}
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("description")}
                         />
@@ -102,7 +109,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("oracleContract")}
                         />
@@ -118,7 +125,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("rewardToken")}
                         />
@@ -134,7 +141,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("rewardAmount")}
                         />
@@ -150,7 +157,7 @@ export const CreateContainer: FC = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-none hover:border-none focus:outline-white appearance-none"
+                        className="w-full my-2 py-1 px-6 rounded-lg text-sm md:text-lg bg-form border-neutral hover:border-neutral appearance-none border-2"
                         
                         {...register("totalRewardAmount")}
                         />

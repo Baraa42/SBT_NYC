@@ -20,7 +20,6 @@ export const WorldIDComponent = ({
   setProof: (proof: VerificationResponse) => void;
   actionId: string
 }): JSX.Element => {
-  console.log("WorldIDComponent: ");
   const enableWorldID = async (): Promise<void> => {
     try {
       const result = await worldID.enable();

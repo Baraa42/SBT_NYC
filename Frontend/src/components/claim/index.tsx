@@ -54,29 +54,37 @@ export const ClaimContainer: FC = () => {
 
 
     return (
-        <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg" >
+        <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg space-y-6" >
             <div className="w-full flex items-center justify-center">
                 {!account && (
                     <ConnectWalletBtn />
                 )}
-                {account && (
+            </div>
+            <div className="w-full flex items-center justify-center">
+            {account && (
                   <>   
                     <WorldIDComponent
                         signal={account}
                         actionId={nft}
                         setProof={(proof) => setWorldIDProof(proof)}
                     />
-                    <Button
-                        type="button"
-                        className="w-1/2 text-white bg-primary"
-                        disabled={!worldIDProof}
-                        onClick={claim}
-                        >
-                        Claim
-                    </Button>
                   </>
                 )}
-            </div>
+                </div>
+                <div className="w-full flex items-center justify-center">
+                {account && (
+                    <>   
+                      <Button
+                          type="button"
+                          className="w-1/2 text-white bg-primary"
+                          disabled={!worldIDProof}
+                          onClick={claim}
+                          >
+                          Claim
+                      </Button>
+                    </>
+                  )}
+                </div>
         </main>
     )
 }
