@@ -6,14 +6,18 @@ import { defaultAbiCoder as abi } from "@ethersproject/abi";
 import { useWalletAccount } from "@/hooks/useWalletAccount";
 import type { VerificationResponse } from "@worldcoin/id";
 import { ConnectWalletBtn } from "../common/ConnectWalletBtn";
-import { WorldIDComponent } from "./WorldIDComponent";
 import guildAbi from "@/hardhat/deployments/guild.json";
 import { GUILD_ADDRESS } from "@/const";
+import dynamic from "next/dynamic";
+import { WorldIDComponentProps } from "./WorldIDComponent";
+
+const WorldIDComponent = dynamic<WorldIDComponentProps>( () => import("./WorldIDComponent").then(module =>   module.WorldIDComponent),{ ssr: false });
 
 export const ClaimContainer: FC = () => {
     const router = useRouter()
     const id = router.query.id as string
     const nft = router.query.nft as string
+
 
     const {account, library} = useWalletAccount()
     const [worldIDProof, setWorldIDProof] = useState<VerificationResponse | null>(null);
@@ -44,7 +48,6 @@ export const ClaimContainer: FC = () => {
       };
 
       const claim = async () => {
-    
         try {
           await claimAction();
         } catch (error) {
@@ -77,7 +80,7 @@ export const ClaimContainer: FC = () => {
                       <Button
                           type="button"
                           className="w-1/2 text-white bg-primary"
-                          disabled={!worldIDProof}
+                          disabled={!!worldIDProof}
                           onClick={claim}
                           >
                           Claim

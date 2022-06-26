@@ -2,7 +2,7 @@ import { defaultAbiCoder as abi } from "@ethersproject/abi";
 import { keccak256 } from "@ethersproject/solidity";
 import type { VerificationResponse } from "@worldcoin/id";
 import worldID from "@worldcoin/id";
-import React from "react";
+import { FC, useEffect } from "react";
 
 const hashBytes = (input: string): string => {
   return abi.encode(
@@ -11,15 +11,14 @@ const hashBytes = (input: string): string => {
   );
 };
 
-export const WorldIDComponent = ({
-  signal,
-  setProof,
-  actionId
-}: {
-  signal: string;
-  setProof: (proof: VerificationResponse) => void;
+export type WorldIDComponentProps = {
+  signal: string
+  setProof: (proof: VerificationResponse) => void
   actionId: string
-}): JSX.Element => {
+}
+
+export const WorldIDComponent:FC<WorldIDComponentProps> = ({signal, setProof, actionId}) => {
+
   const enableWorldID = async (): Promise<void> => {
     try {
       const result = await worldID.enable();
@@ -30,7 +29,7 @@ export const WorldIDComponent = ({
       enableWorldID().catch(console.error.bind(console));
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if(typeof window !== undefined){
       if (!worldID.isInitialized()) {
         worldID.init("world-id-container", {
@@ -46,6 +45,7 @@ export const WorldIDComponent = ({
     }
   }, []);
 
-  if(typeof window == undefined) return <></>
-  return <div id="world-id-container" />;
+  return (
+    <div id="world-id-container"></div>
+  );
 };
