@@ -6,7 +6,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     log("---------------------------------")
-    arguments = ["0xD81dE4BCEf43840a2883e5730d014630eA6b7c4A"]
+    arguments = ["0xABB70f7F39035586Da57B3c8136035f87AC0d2Aa"]
     const guild = await deploy("Guild", {
         from: deployer,
         args: arguments,

@@ -52,16 +52,6 @@ async function mint() {
     console.log("Third Guild created")
     const guildCounter = await guild.guildCounter()
     console.log("guildCounter:", guildCounter.toString())
-
-    // const transferTx = await soulbound
-    //     .connect(user)
-    //     .transferFrom(
-    //         user.address,
-    //         "0x6CAc6323c14C14c71bF5babd1328279153e049a6",
-    //         0
-    //     )
-    // const transferRx = await transferTx.wait(1)
-    // console.log(transferRx)
 }
 
 mint()
