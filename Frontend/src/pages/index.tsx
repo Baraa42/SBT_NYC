@@ -7,8 +7,8 @@ const Home: NextPage = () => {
   return (
     <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg">
       <div className="flex items-center justify-center w-full">
-        <div className="relative w-full h-96">
-          <Image src={"/top/Image-1.png"} layout='fill' objectFit='cover' />
+        <div className="relative w-2/3 h-hit">
+          <img src={"/top/Image-1.png"} alt={"top image"} width="100%" className=""/>
         </div>
       </div>
       <div className="w-full grid grid-cols-2 items-center justify-center my-16 space-x-8">
