@@ -13,11 +13,14 @@ module.exports = {
     extend: {
       colors: {
         // Unique Colors
-          primary: "#8E477F",
+          primary: "#f7cf5b",
           "primary-300": "#A66497",
           "primary-light": "#3d6be2",
+          "primary-button": "#ffffff", 
           secondary: "#EFA9E0",
           "secondary-light": "#ED74E1",
+
+         
 
           // Neutral Colors
           ground: "#24242B",
