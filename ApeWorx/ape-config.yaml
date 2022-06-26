@@ -1,0 +1,5 @@
+name: ethernifty
+dependencies:
+  - name: OpenZeppelin
+    github: OpenZeppelin/openzeppelin-contracts
+    version: 4.4.2
