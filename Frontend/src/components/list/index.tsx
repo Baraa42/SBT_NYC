@@ -1,11 +1,19 @@
 import { useGuild } from "@/hooks/useGuild";
-import { FC } from "react";
+import { useWalletAccount } from "@/hooks/useWalletAccount";
+import { useSetConnectWalletModal } from "@/jotai";
+import { FC, useEffect } from "react";
 import { GuildCard } from "./parts/GuildCard";
 
 export const ListContainer: FC = () => {
-
+    const setModal = useSetConnectWalletModal();
+    const { library } = useWalletAccount();
     const {guilds} = useGuild() 
 
+    useEffect(() => {
+        if(!library) {
+            setModal(true)
+        }
+    },[library])
 
     return (
         <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg">

@@ -1,11 +1,11 @@
 import { useWalletAccount } from "@/hooks/useWalletAccount";
-import { useShowConnectWalletModal } from "@/jotai"
+import { useSetConnectWalletModal } from "@/jotai"
 import { shortenStr } from "@/utils/tools";
 import { Button } from "react-daisyui"
 
 export const ConnectWalletBtn = () => {
 
-    const [_, setShow] = useShowConnectWalletModal()
+    const setShow = useSetConnectWalletModal()
     const { account, disconnectWallet} = useWalletAccount();
 
     if (account) {
@@ -19,7 +19,7 @@ export const ConnectWalletBtn = () => {
         </>
     
         const content = (
-          <div className="bg-card text-oncard p-4">
+          <div className="bg-base-content text-oncard p-4">
             <div className="rounded-lg space-y-2">{buttons}</div>
           </div>
         );

@@ -14,11 +14,11 @@ export const GuildCard:FC<GuildCardProps> = ({item}) => {
     
     const goToClaim = (id: number) => {
         setItem(item)
-        router.push(`/claim/?id=${id}`)
+        router.push(`/claim/?id=${id}&nft=${item.guildIdToNFTAddress}`)
     }
 
     return (
-        <Card className="bg-card w-auto h-fit mx-2">
+        <Card className="bg-gray-100 w-auto h-fit mx-2 p-4">
             <Card.Image
             src={item.uri}
             alt="image"
