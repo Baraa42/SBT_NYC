@@ -12,9 +12,7 @@ export const Header = () => {
         <div className="flex flex-grow">
             <a className="btn btn-ghost normal-case text-xl">
                 <Link href="/" passHref>
-                    <div className="text-center flex">
-                    Logo
-                    </div>
+                    <img src="/logo.png" width="100px" height="100px" alt="Ethernifty" />
                 </Link>
             </a>
         </div>

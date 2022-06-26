@@ -7,7 +7,7 @@ import {
   Soulbound__factory,
 } from "@/hardhat/typechain";
 
-export type NetworkId = 4 | 31337;
+export type NetworkId = 80001 | 4 | 31337;
 
 type SignerOrProvider = ethers.providers.Provider | ethers.ethers.Signer;
 

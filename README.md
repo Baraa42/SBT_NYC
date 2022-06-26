@@ -4,15 +4,22 @@
 ## Project Description
 
 ##  flow example
-1. 
-2.
-3.
-4. 
-5. 
+1. DAO/User create Guild that should be exectued only once with:
+  1. Description
+  2. Oracle contract checking weather task is completed
+  3. Optional: Reward token e.g USDC
+  
+2. User check guild and finsh them
+3. Oracle return True: Guild finished
+4. User can mint their SBT 
+  1. User generate a signature via WorldCoin to proove they are claiming for the first time
+  2. Contract confirms proof
+  3. SBT and reward are sent to the user
+
 
 
 ## Already Implemented
--
+- Smart contract
 
 ## On the road map
 We would like to 
