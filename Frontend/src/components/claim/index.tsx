@@ -1,42 +1,81 @@
-import { useGuild } from "@/hooks/useGuild";
 import { useRouter } from "next/router";
-import { FC, useEffect, useMemo } from "react";
-import { GuildCard } from "../list/parts/GuildCard";
-import worldID from "@worldcoin/id";
-import { useSelectedGuild } from "@/jotai";
+import { FC, useState } from "react";
+import { ethers} from "ethers"
+import {Button} from "react-daisyui"
+import { defaultAbiCoder as abi } from "@ethersproject/abi";
+import { useWalletAccount } from "@/hooks/useWalletAccount";
+import type { VerificationResponse } from "@worldcoin/id";
+import { ConnectWalletBtn } from "../common/ConnectWalletBtn";
+import { WorldIDComponent } from "./WorldIDComponent";
+import guildAbi from "@/hardhat/deployments/guild.json";
+import { GUILD_ADDRESS } from "@/const";
 
 export const ClaimContainer: FC = () => {
-    const [selectedItem, setItem] = useSelectedGuild()
     const router = useRouter()
     const id = router.query.id as string
-    const {getGuild} = useGuild() 
+    const nft = router.query.nft as string
 
-    useEffect(() => {
-        if(!worldID.isInitialized()){
-            worldID.init("world-id-container", {
-                enable_telemetry: true,
-                action_id: "wid_staging_81594091ab77fbb9f1fcb2fca1757d85", // NFT address of guildIf
-                signal: "my-user-id-1", // user address
-                app_name: "My App", // Ethernifty
-                signal_description: "Receive a super cool airdrop!", // completer mission id=guildId
-              });
+    const {account, library} = useWalletAccount()
+    const [worldIDProof, setWorldIDProof] = useState<VerificationResponse | null>(null);
+    const [txHash, setTxHash] = useState<string>("");
+
+      const claimAction = async () => {
+        if (!(worldIDProof && account && library)) {
+          throw "World ID proof is missing.";
         }
-        document.addEventListener("DOMContentLoaded", async function () {
-            try {
-              const result = await worldID.enable();
-              console.log("World ID verified successfully:", result);
-            } catch (failure) {
-              console.warn("World ID verification failed:", failure);
-              // Re-activate here so your end user can try again
-            }
-          });
-    },[])
+    
+        const guildContract = new ethers.Contract(
+            GUILD_ADDRESS,
+            guildAbi,
+          library.getSigner(),
+        );
+    
+        // eslint-disable-next-line
+        const claimResult = await guildContract.claim(
+          account,
+          id,
+          worldIDProof.merkle_root,
+          worldIDProof.nullifier_hash,
+          abi.decode(["uint256[8]"], worldIDProof.proof)[0],
+          { gasLimit: 10000000 },
+        );
+        setTxHash((claimResult as Record<string, string>).hash);
+        console.log("SBT claimed successfully!", claimResult);
+      };
+
+      const claim = async () => {
+    
+        try {
+          await claimAction();
+        } catch (error) {
+          console.error("Error executing transaction:", error);
+        }
+      };
 
 
     return (
         <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg" >
-            <div className="w-full flex items-center justify-center" id={"world-id-container"}>
-                {/* <GuildCard item={selectedItem} />        */}
+            <div className="w-full flex items-center justify-center">
+                {!account && (
+                    <ConnectWalletBtn />
+                )}
+                {account && (
+                  <>   
+                    <WorldIDComponent
+                        signal={account}
+                        actionId={nft}
+                        setProof={(proof) => setWorldIDProof(proof)}
+                    />
+                    <Button
+                        type="button"
+                        className="w-1/2 text-white bg-primary"
+                        disabled={!worldIDProof}
+                        onClick={claim}
+                        >
+                        Claim
+                    </Button>
+                  </>
+                )}
             </div>
         </main>
     )

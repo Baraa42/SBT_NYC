@@ -7,12 +7,13 @@ import { useContracts, useReadOnlyContracts } from "./useContract";
 import { useToast } from "./useToast";
 import { useWalletAccount } from "./useWalletAccount";
 import abi from "@/hardhat/deployments/guild.json";
+import { GUILD_ADDRESS } from "@/const";
+import { ConnectWalletBtn } from "@/components/common/ConnectWalletBtn";
 
 export const useGuild = () => {
   const { account, chainId, library } = useWalletAccount();
   const { toastError } = useToast();
   const contracts = useContracts();
-  const readOnlyContracts = useReadOnlyContracts();
   const web3Context = useWeb3React();
   const runGuildTxFn = guildTxFn(web3Context, contracts);
   const [guilds, setGuilds] = useState<GuildItem[]>();
@@ -31,11 +32,7 @@ export const useGuild = () => {
 
     try {
       const signer = library?.getSigner();
-      const guild = new ethers.Contract(
-        "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-        abi,
-        signer
-      );
+      const guild = new ethers.Contract(GUILD_ADDRESS, abi, signer);
       const num = await guild.guildCounter();
       const temp: GuildItem[] = [];
       for (let i = 0; i < num; i++) {
@@ -55,24 +52,30 @@ export const useGuild = () => {
     }
   }, [contracts]);
 
-  const getGuild = useCallback(async (id: number): Promise<GuildItem> => {
-    const signer = library?.getSigner();
-    const guild = new ethers.Contract(
-      "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      abi,
-      signer
-    );
-    const g = await guild.guilds(id);
-    const reward = await guild.guildToRewardsLeft(id);
-    const nft = await guild.guildIdToNFTAddress(id);
-    const d: GuildItem = {
-      ...g,
-      id: id,
-      guildToRewardsLeft: reward,
-      guildIdToNFTAddress: nft,
-    };
-    return d;
-  }, []);
+  const getGuild = useCallback(
+    async (id: number): Promise<GuildItem | null> => {
+      if (!account) {
+        await ConnectWalletBtn();
+      }
+      const signer = library?.getSigner();
+      const guild = new ethers.Contract(
+        "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        abi,
+        signer
+      );
+      const g = await guild.guilds(id);
+      const reward = await guild.guildToRewardsLeft(id);
+      const nft = await guild.guildIdToNFTAddress(id);
+      const d: GuildItem = {
+        ...g,
+        id: id,
+        guildToRewardsLeft: reward,
+        guildIdToNFTAddress: nft,
+      };
+      return d;
+    },
+    []
+  );
 
   const createGuild = async (data: GuildForm) => {
     // validation

@@ -15,7 +15,6 @@ export const CreateContainer: FC = () => {
 
     const onClickSubmit = (data:any) => {
         if(!data) return
-        console.log({data})
         createGuild(data)
     }
 
