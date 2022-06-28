@@ -81,7 +81,7 @@ export const ClaimContainer: FC = () => {
                       <Button
                           type="button"
                           className="w-1/2 text-white bg-primary"
-                          disabled={!!worldIDProof}
+                          disabled={!worldIDProof}
                           onClick={claim}
                           >
                           Claim
