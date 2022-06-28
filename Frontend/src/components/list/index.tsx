@@ -16,7 +16,7 @@ export const ListContainer: FC = () => {
     },[library])
 
     return (
-        <main className="h-screen overflow-hidden max-w-screen-lg mx-auto text-lg">
+        <main className="h-screen overflow-y-auto max-w-screen-lg mx-auto text-lg">
             <div className="grid grid-cols-3 flex-wrap p-4 items-center overflow-auto w-full mx-auto">
                 {guilds && guilds.map((g, index) => {
                     return (

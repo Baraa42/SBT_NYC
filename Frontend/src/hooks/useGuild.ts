@@ -32,7 +32,7 @@ export const useGuild = () => {
       );
       const num = await guild.guildCounter();
       const temp: GuildItem[] = [];
-      for (let i = 0; i < num; i++) {
+      for (let i = num; i > 0; i--) {
         const g = await guild.guilds(i);
         const reward = await guild.guildToRewardsLeft(i);
         const nft = await guild.guildIdToNFTAddress(i);
