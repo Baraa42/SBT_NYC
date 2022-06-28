@@ -28,7 +28,7 @@ contract Guild {
     uint256 public guildCounter;
     mapping(uint256 => GuildDetails) public guilds;
     mapping(uint256 => uint256) public guildToRewardsLeft;
-    mapping(uint256 => address) public guildIdToNFTAddress; // Guild => NFT Contract // guildIdToNFTAddress[0] guild.guildIdToNFTAddress
+    mapping(uint256 => address) public guildIdToNFTAddress;
 
     /// @dev The WorldID instance that will be used for verifying proofs
     IWorldID internal immutable worldId;

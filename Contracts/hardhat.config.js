@@ -11,7 +11,10 @@ const POLYGON_MUMBAI_RPC_URL = process.env.POLYGON_MUMBAI_RPC_URL || ""
 const PRIVATE_KEY = process.env.PRIVATE_KEY || ""
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY || ""
+const OPTIMISM_KOVAN_RPC_URL = process.env.OPTIMISM_KOVAN_RPC_URL || ""
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
+const OPTIMISMSCAM_API_KEY = process.env.OPTIMISMSCAM_API_KEY || ""
+const SKALE_RPC_URL = process.env.SKALE_RPC_URL || ""
 
 module.exports = {
     solidity: {
@@ -31,6 +34,24 @@ module.exports = {
             chainId: 80001,
             blockConfirmations: 6,
         },
+        "optimistic-kovan": {
+            url: OPTIMISM_KOVAN_RPC_URL || "",
+            accounts: [PRIVATE_KEY],
+            chainId: 69,
+            blockConfirmations: 6, //https://hackathon.skalenodes.com/v1/hoarse-well-made-theemim
+        },
+        "skale-test": {
+            url: SKALE_RPC_URL,
+            accounts: [PRIVATE_KEY],
+            chainId: parseInt(0x1e783a2),
+            blockConfirmations: 2, //
+        },
+        boba: {
+            url: "https://rinkeby.boba.network/",
+            chainId: 28,
+            accounts: [PRIVATE_KEY],
+            blockConfirmations: 6,
+        },
     },
     gasReporter: {
         enabled: true,
@@ -41,7 +62,7 @@ module.exports = {
         token: "ETH",
     },
     etherscan: {
-        apiKey: POLYGONSCAN_API_KEY, //ETHERSCAN_API_KEY,
+        apiKey: OPTIMISMSCAM_API_KEY, //POLYGONSCAN_API_KEY, //ETHERSCAN_API_KEY,
     },
     namedAccounts: {
         deployer: {
